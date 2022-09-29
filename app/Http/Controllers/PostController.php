@@ -16,7 +16,9 @@ class PostController extends Controller
      */
     public function index()
     {
-        return view('posts.index');
+        $posts = Post::with('user')->latest()->Paginate(4);
+
+        return view('posts.index', compact('posts'));
     }
 
     /**
@@ -122,18 +124,18 @@ class PostController extends Controller
             $post->save();
 
             if ($file) {
-              // 画像アップロード
-              if (!Storage::putFileAs('images/posts', $file, $post->image)) {
-                  // 例外を投げてロールバックさせる
-                  throw new \Exception('画像ファイルの保存に失敗しました。');
-              }
+                // 画像アップロード
+                if (!Storage::putFileAs('images/posts', $file, $post->image)) {
+                    // 例外を投げてロールバックさせる
+                    throw new \Exception('画像ファイルの保存に失敗しました。');
+                }
 
-              // 画像削除
-              if (!Storage::delete($delete_file_path)) {
-                  //アップロードした画像を削除する
-                  Storage::delete('images/posts/' . $post->image);
-                  //例外を投げてロールバックさせる
-                  throw new \Exception('画像ファイルの削除に失敗しました。');
+                // 画像削除
+                if (!Storage::delete($delete_file_path)) {
+                    //アップロードした画像を削除する
+                    Storage::delete('images/posts/' . $post->image);
+                    //例外を投げてロールバックさせる
+                    throw new \Exception('画像ファイルの削除に失敗しました。');
                 }
             }
 
@@ -147,7 +149,7 @@ class PostController extends Controller
 
         return redirect()->route('posts.show', $post)
             ->with('notice', '記事を更新しました');
-}
+    }
     /**
      * Remove the specified resource from storage.
      *
@@ -164,4 +166,3 @@ class PostController extends Controller
         return date('YmdHis') . '_' . $file->getClientOriginalName();
     }
 }
-
