@@ -39,9 +39,9 @@ class PostController extends Controller
      */
     public function store(PostRequest $request)
     {
-        $post = new Post($request->all());
+        $post = new Post($request->all());//fillableによってcategoryも含まれているはず
         $post->user_id = $request->user()->id;
-
+        
         $file = $request->file('image');
         $post->image = self::createFileName($file);
 

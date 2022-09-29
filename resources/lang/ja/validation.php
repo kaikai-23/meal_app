@@ -130,6 +130,7 @@ return [
     'attributes'           => [
         'title' => 'タイトル',
         'body' => '本文',
+        'category' => 'カテゴリー',
         'image' => '画像',    
     ],
 ];
