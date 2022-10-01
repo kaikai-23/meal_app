@@ -17,7 +17,11 @@ class CreatePostsTable extends Migration
             $table->id();
             $table->string('title');
             $table->text('body');
-            $table->string('category');//categoryの処理
+            //categoryモデルのidとつなげる
+            $table->foreignId('category_id')
+                ->constrained()
+                ->cascadeOnUpdate()
+                ->cascadeOnDelete(); 
             $table->string('image');
             $table->foreignId('user_id')
                 ->constrained()

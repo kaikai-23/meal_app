@@ -22,9 +22,12 @@
                 <label class="block text-gray-700 text-sm mb-2" for="category">
                     カテゴリー
                 </label>
-                <input type="radio" name="category" value="野菜" {{ old('category', $post->category) === '野菜' ? 'checked' : ''}}>野菜<br>
-                <input type="radio" name="category" value= "タンパク質"{{ old('category', $post->category) === 'タンパク質' ? 'checked':''}}>タンパク質<br>
-                <input type="radio" name="category" value= "炭水化物"{{ old('category', $post->category) === '炭水化物' ? 'checked':''}}>炭水化物
+                @foreach ($categories as $category)
+                    <label>
+                    <input type="radio" name="category_id" id='category' value={{ $category->id }} {{ old('category_id',$post->category_id) == $category->id ? 'checked' : ''}} >
+                    {{ $category->name }}<br>
+                    </label>
+                @endforeach
             </div>
             <div class="mb-4">
                 <label class="block text-gray-700 text-sm mb-2" for="body">
