@@ -36,5 +36,9 @@ class Post extends Model
         return 'images/posts/'. $this->image;
     }
     
+    public function favorites()
+    {
+        return $this->hasMany(Favorite::class);
+    }
 }
 

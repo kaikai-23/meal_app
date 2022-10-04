@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\PostRequest;
 use App\Models\Category;
 use App\Models\Post;
+use App\Models\Favorite;//追加
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Auth;//もう一度説明加える部分
 
 class PostController extends Controller
 {
@@ -81,7 +83,15 @@ class PostController extends Controller
     public function show($id)
     {
         $post = Post::find($id);
-        return view('posts.show', compact('post'));
+        if(Auth::user()){
+            $favorite = Favorite::where('post_id', $post->id)
+            ->where('user_id', auth()->user()->id)
+            ->first();
+            return view('posts.show', compact('post','favorite'));
+        }else{
+            return view('posts.show', compact('post'));
+        }
+
     }
 
     /**

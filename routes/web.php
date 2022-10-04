@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\PostController;
+use App\Http\Controllers\FavoriteController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -27,5 +28,9 @@ Route::resource('posts', PostController::class)
 
 Route::resource('posts', PostController::class)
     ->only(['show', 'index']);
+
+Route::resource('posts.favorites', FavoriteController::class)
+    ->only(['store','destroy'])
+    ->middleware('auth');
 
 require __DIR__.'/auth.php';
